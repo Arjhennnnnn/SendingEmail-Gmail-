@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmailController;
+use App\Jobs\SlowJob;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,5 +14,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/',function(){
+
+    $start = microtime(true);
+    SlowJob::dispatch();
+    $final = microtime(true);
+
+    dd($start - $final);
+
+});
 
 Route::get('/sendEmail',[EmailController::class,'sendWelcomeEmail']);

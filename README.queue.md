@@ -1,165 +1,55 @@
-<h1> 🚀🚀🚀 Sending Email through Gmail </h1>
+<h1> 🚀🚀🚀 The Queue Component in Laravel </h1>
 
-## Create a credentials through gmail
+## Create a job
+<p> Job is a laravel term for a background task </p>
 
-<p> [s.1] Click Manage your Google Account</p>
+php artisan make:job SlowJob
 
-<p> [s.2] Click Security </p>
+[ Job Class ] -> has a constructor and handle method
 
-<p> [s.3] Click or Search App Password in search bar </p>
+[ Handle ] -> is going to be executed in the background when the job runs
 
-<p> [s.4] Create new application -> App name eg. test email </p>
+## Handle Job
 
-<p> [s.5] Copy the generated app password -> eg. [kxxd rnud satp icbn] </p>
-
-## Env configuration
-
-<p>    [s.1] in this MAIL_USERNAME you will to provide your email address </p>
-            
-            MAIL_USERNAME=sample@gmail.com
-
-<p>    [s.2] in this MAIL_PASSWORD you will to provide your password that you have generated </p>
-
-            MAIL_PASSWORD=kxxdrnudsatpicbn
-
-<p>    [s.3] in this MAIL_ENCRYPTION you can add [ TLS ] </p>
-
-            MAIL_ENCRYPTION=tls
-
-<p>    [s.4] in this MAIL_HOST you can add [ TLS ] </p>
-
-            MAIL_HOST=smtp.gmail.com
-
-<p>    [s.5] in this MAIL_PORT you can add port by default gmail port [ 587 ] </p>
-
-            MAIL_PORT=587
+<p> Instead of running the heavy or slow work here , we are going to run it inside the job</p>
 
 
-<p>    [s.6] in this MAIL_FROM_ADDRESS you will to provide same email address </p>
-    
-            MAIL_FROM_ADDRESS=sample@gmail.com
+    public function handle(): void
+    {
         
-
-<p>  .env sample </p>
-
-    MAIL_MAILER=smtp
-    MAIL_HOST=smtp.gmail.com
-    MAIL_PORT=587
-    MAIL_USERNAME=sample@gmail.com
-    MAIL_PASSWORD=kxxdrnudsatpicbn
-    MAIL_ENCRYPTION=tls
-    MAIL_FROM_ADDRESS="sample@gmail.com"
-    MAIL_FROM_NAME="${APP_NAME}"
-
-
-## To implement send email , First is Create Mail Class 
-
-    php artisan make:mail WelcomeEmail
-
-## Inside the MailClass
-
-<p> [Construct] -> if we want to receive any parameters from the controller 
-    or any function we can receive that directly inside this constuction </p>
-
-
-<p> [Envelope] -> this subject is based on the given classname </p>
-
-        return new Envelope (
-            subject : 'Welcome Email'
-        );
-
-<p> further example </p>
-
-<p>    [configuring the sender of the email] [from] </p>
-
-            return new Envelope(
-                from: new Address('sample@gmail.com', 'Sample Name'),
-                subject: 'Welcome Email',
-            );
-
-
-<p>     [you may also specify a replyTo address] </p>
-
-        return new Envelope(
-            from: new Address('sample@gmail.com', 'Sample Name'),
-            replyTo: [
-                new Address('receiver@gmail.com', 'Receiver Name'),
-            ],
-            subject: 'Welcome Email',
-        );
-
-
-
-
-<p>   [Content] -> inside this content we have this [ view ] option , we can render the blade template </p>
-
-        return new Content (
-            view : 'view.email'
-        );
-
-
-<p>    [Attachments] -> so this can be image or pdf for any file </p>
-
-        return [
-            Attachment::fromPath('path/to/file')
-        ];
-
-    
-
-## Make Emeil Controller
-
-    php aritisan make:controller EmailController
-
-## Define recipient Email Address to whom we will send Email
-
-    use Illuminate\Support\Facades\Mail;
-    use App\Mail\WelcomeEmail;
-
-    public function sendWelcomeEmail(){
-
-        $toEmail = 'sample@gmail.com';
+        $toEmail = 'madlangsakay.arjhen05@gmail.com';
         $message = 'Welcome to Programming Fields';
         $subject = 'Welcome Email in laravel Using Gmail';
 
-        Mail::to($toEmail)->send(new WelcomeEmail($message,$subject))
+        Mail::to($toEmail)->send(new WelcomeEmail($message,$subject));
 
     }
 
+## Dispatch Job
 
-<p>     [s.1] we will have to pass the mail class that we want to call eg.WelcomeEmail </p>
-<p>     [s.2] we will pass the $message in the parameter </p>
+<p> Dispatch Job in your controller </p>
 
+SlowJob::dispatch();
 
+## The queue configuration are kept under the queue.php
 
+queue.php
 
-## and now let's come back to this mail class
+## In order to use the database queue driver, you will need a database table to hold the jobs.
 
-<p>    and now we will have to receive that message so we will create one variable  </p>
+php artisan queue:table
 
-    public $mailMessage;
-    public $subject;
+php artisan migrate
 
+## Updating the QUEUE_CONNECTION variable in your application's .env file
 
-## and we have to capture this parameter in the mail class Constructor
+QUEUE_CONNECTION=database
 
-    public function __construct($message,$subject){
-        $this->message = $message;
-        $this->subject = $subject;
+## Call queue:work command
 
-    }
-
-    return new Envelope (
-        subject : $this->subject
-    );
-
-    return new Content (
-        view : 'view.email'
-    );
-
-<p>    in mail blade template call the variable you need </p>
-
-        <h4> {{ $subject }} </h4>
-        <p> {{ $mailMessage }} </p>
+php artisan queue:work
 
 
+## Delay Job Processing [ chain the delay method ]
 
+SlowJob::dispatch()->delay(5);

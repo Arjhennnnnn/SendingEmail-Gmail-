@@ -10,7 +10,7 @@
 
 <p> [s.4] Create new application -> App name eg. test email </p>
 
-<p> [s.5] Copy the generated app password -> eg. [kxxd rnud satp icbn] </p>
+<p> [s.5] Copy the generated app password -> eg. [abcd efgh igkl mnop] </p>
 
 ## Env configuration
 
@@ -20,7 +20,7 @@
 
 <p>    [s.2] in this MAIL_PASSWORD you will to provide your password that you have generated </p>
 
-            MAIL_PASSWORD=kxxdrnudsatpicbn
+            MAIL_PASSWORD=abcdefghigklmnop
 
 <p>    [s.3] in this MAIL_ENCRYPTION you can add [ TLS ] </p>
 
@@ -46,7 +46,7 @@
     MAIL_HOST=smtp.gmail.com
     MAIL_PORT=587
     MAIL_USERNAME=sample@gmail.com
-    MAIL_PASSWORD=kxxdrnudsatpicbn
+    MAIL_PASSWORD=abcdefghigklmnop
     MAIL_ENCRYPTION=tls
     MAIL_FROM_ADDRESS="sample@gmail.com"
     MAIL_FROM_NAME="${APP_NAME}"

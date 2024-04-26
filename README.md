@@ -1,45 +1,46 @@
-[1] Create a credentials through gmail
+<h1> 🚀🚀🚀 Sending Email through Gmail </h1>
 
-    [s.1] Click Manage your Google Account
+## Create a credentials through gmail
 
-    [s.2] Click Security
+<p> [s.1] Click Manage your Google Account</p>
 
-    [s.3] Click or Search App Password in search bar
+<p> [s.2] Click Security </p>
 
-    [s.4] Create new application -> App name eg. test email
+<p> [s.3] Click or Search App Password in search bar </p>
 
-    [s.5] Copy the generated app password -> eg. [kxxd rnud satp icbn]
+<p> [s.4] Create new application -> App name eg. test email </p>
 
-[2] Env configuration
+<p> [s.5] Copy the generated app password -> eg. [kxxd rnud satp icbn] </p>
 
-    [s.1] in this MAIL_USERNAME you will to provide your email address
+## Env configuration
+
+<p>    [s.1] in this MAIL_USERNAME you will to provide your email address </p>
             
-            eg. MAIL_USERNAME=sample@gmail.com
+            MAIL_USERNAME=sample@gmail.com
 
-    [s.2] in this MAIL_PASSWORD you will to provide your password that you  
-        have generated
+<p>    [s.2] in this MAIL_PASSWORD you will to provide your password that you have generated </p>
 
-            eg. MAIL_PASSWORD=kxxdrnudsatpicbn
+            MAIL_PASSWORD=kxxdrnudsatpicbn
 
-    [s.3] in this MAIL_ENCRYPTION you can add [ TLS ]
+<p>    [s.3] in this MAIL_ENCRYPTION you can add [ TLS ] </p>
 
-            eg. MAIL_ENCRYPTION=tls
+            MAIL_ENCRYPTION=tls
 
-    [s.4] in this MAIL_HOST you can add [ TLS ]
+<p>    [s.4] in this MAIL_HOST you can add [ TLS ] </p>
 
-            eg. MAIL_HOST=smtp.gmail.com
+            MAIL_HOST=smtp.gmail.com
 
-    [s.5] in this MAIL_PORT you can add port by default gmail port [ 587 ]
+<p>    [s.5] in this MAIL_PORT you can add port by default gmail port [ 587 ] </p>
 
-        eg. MAIL_PORT=587
+            MAIL_PORT=587
 
 
-    [s.6] in this MAIL_FROM_ADDRESS you will to provide same email address
+<p>    [s.6] in this MAIL_FROM_ADDRESS you will to provide same email address </p>
     
-        eg. MAIL_FROM_ADDRESS=sample@gmail.com
+            MAIL_FROM_ADDRESS=sample@gmail.com
         
 
-    .env sample
+<p>  .env sample </p>
 
     MAIL_MAILER=smtp
     MAIL_HOST=smtp.gmail.com
@@ -51,25 +52,25 @@
     MAIL_FROM_NAME="${APP_NAME}"
 
 
-[3] To implement send email , First is Create Mail Class
+## To implement send email , First is Create Mail Class 
 
     php artisan make:mail WelcomeEmail
 
-[4] Inside the MailClass
+## Inside the MailClass
 
-    [Construct] -> if we want to receive any parameters from the controller 
-        or any function we can receive that directly inside this constuction
+<p> [Construct] -> if we want to receive any parameters from the controller 
+    or any function we can receive that directly inside this constuction </p>
 
 
-    [Envelope] -> this subject is based on the given classname
+<p> [Envelope] -> this subject is based on the given classname </p>
 
         return new Envelope (
             subject : 'Welcome Email'
         );
 
-        further example
+<p> further example </p>
 
-        [configuring the sender of the email] [from]
+<p>    [configuring the sender of the email] [from] </p>
 
             return new Envelope(
                 from: new Address('sample@gmail.com', 'Sample Name'),
@@ -77,7 +78,7 @@
             );
 
 
-        [you may also specify a replyTo address]
+<p>     [you may also specify a replyTo address] </p>
 
         return new Envelope(
             from: new Address('sample@gmail.com', 'Sample Name'),
@@ -90,15 +91,14 @@
 
 
 
-    [Content] -> inside this content we have this [ view ] option , we can render
-        the blade template
+<p>   [Content] -> inside this content we have this [ view ] option , we can render the blade template </p>
 
         return new Content (
             view : 'view.email'
         );
 
 
-    [Attachments] -> so this can be image or pdf for any file
+<p>    [Attachments] -> so this can be image or pdf for any file </p>
 
         return [
             Attachment::fromPath('path/to/file')
@@ -106,14 +106,14 @@
 
     
 
-[5] Make Emeil Controller
+## Make Emeil Controller
 
     php aritisan make:controller EmailController
 
-[6] Define recipient Email Address to whom we will send Email
+## Define recipient Email Address to whom we will send Email
 
-import : use Illuminate\Support\Facades\Mail;
-         use App\Mail\WelcomeEmail;
+    use Illuminate\Support\Facades\Mail;
+    use App\Mail\WelcomeEmail;
 
     public function sendWelcomeEmail(){
 
@@ -121,26 +121,26 @@ import : use Illuminate\Support\Facades\Mail;
         $message = 'Welcome to Programming Fields';
         $subject = 'Welcome Email in laravel Using Gmail';
 
-
-
-        [s.1] we will have to pass the mail class that we want to call eg.WelcomeEmail
-        [s.2] we will pass the $message in the parameter
-
         Mail::to($toEmail)->send(new WelcomeEmail($message,$subject))
 
     }
 
 
-[7] and now let's come back to this mail class
+<p>     [s.1] we will have to pass the mail class that we want to call eg.WelcomeEmail </p>
+<p>     [s.2] we will pass the $message in the parameter </p>
 
-    and now we will have to receive that message so we will create one variable 
 
+
+
+## and now let's come back to this mail class
+
+<p>    and now we will have to receive that message so we will create one variable  </p>
 
     public $mailMessage;
     public $subject;
 
 
-[8] and we have to capture this parameter in the mail class Constructor
+## and we have to capture this parameter in the mail class Constructor
 
     public function __construct($message,$subject){
         $this->message = $message;
@@ -156,10 +156,10 @@ import : use Illuminate\Support\Facades\Mail;
         view : 'view.email'
     );
 
-    in mail blade template call the variable you need
+<p>    in mail blade template call the variable you need </p>
 
-        eg. <h4>{{ $subject }}</h4>
-            <p>{{ $mailMessage }}</p>
+        <h4> {{ $subject }} </h4>
+        <p> {{ $mailMessage }} </p>
 
 
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\GenerateQrCodeController;
 use App\Jobs\SlowJob;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',function(){
+Route::get('/', function () {
 
     $start = microtime(true);
     SlowJob::dispatch();
     $final = microtime(true);
 
     dd($start - $final);
-
 });
 
-Route::get('/sendEmail',[EmailController::class,'sendWelcomeEmail']);
+Route::get('/sendEmail', [EmailController::class, 'sendWelcomeEmail']);
+
+
+// $generate = QrCode::generate('Make me into a QrCode!');
+
+// return [
+//     'qrCode' => $generate
+// ];
+
+// return response()->success($generate, 'Ready to Start', 200);
